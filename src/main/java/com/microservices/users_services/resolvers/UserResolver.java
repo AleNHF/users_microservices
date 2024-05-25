@@ -64,32 +64,4 @@ public class UserResolver implements GraphQLQueryResolver /*, GraphQLMutationRes
             return userService.deleteUser(id);
         };
     }
-    
-    /* public Optional<User> user(String id) {
-        return userService.findById(id);
-    }
-
-    public User createUser(String username, String email, String password) {
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(password);
-
-        return userService.register(user);
-    }
-
-    public User updateUser(String id, String username, String email, String password) {
-        User updateUser = new User();
-        updateUser.setUsername(username);
-        updateUser.setEmail(email);
-        updateUser.setPassword(password);
-
-        return userService.updateUser(id, updateUser);
-    }
-
-    public boolean deleteUser(String id) {
-        userService.deleteById(id);
-
-        return true;
-    } */
 }

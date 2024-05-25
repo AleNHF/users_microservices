@@ -3,7 +3,6 @@ package com.microservices.users_services.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.microservices.users_services.models.Supplier;
@@ -11,10 +10,14 @@ import com.microservices.users_services.repositories.SupplierRepository;
 
 @Service
 public class SupplierService {
-    @Autowired
+    //@Autowired
     private SupplierRepository supplierRepository;
 
-    public Supplier create(Supplier supplier) {
+    public SupplierService(SupplierRepository supplierRepository) {
+        this.supplierRepository = supplierRepository;
+    }
+
+    public Supplier createSupplier(Supplier supplier) {
         return supplierRepository.save(supplier);
     }
 
@@ -22,16 +25,31 @@ public class SupplierService {
         return supplierRepository.findById(id);
     }
 
-    public List<Supplier> getAllSuppliers() {
+    public List<Supplier> getSuppliers() {
         return supplierRepository.findAll();
     }
 
-    public Supplier update(String id, Supplier supplier) {
-        supplier.setId(id);
-        return supplierRepository.save(supplier);
+    public Supplier updateSupplier(String id, Supplier updateSupplier) {
+        return supplierRepository.findById(id).map(supplier -> {
+            if (updateSupplier.getName() != null)
+                supplier.setName(updateSupplier.getName());
+            if (updateSupplier.getEmail() != null)
+                supplier.setEmail(updateSupplier.getEmail());
+            if (updateSupplier.getPhone() != null)
+                supplier.setPhone(updateSupplier.getPhone());
+            if (updateSupplier.getAddress() != null)
+                supplier.setAddress(updateSupplier.getAddress());
+
+            return supplierRepository.save(supplier);
+        }).orElseThrow(() -> new IllegalArgumentException("Supplier not found with id: " + id));
     }
 
-    public void delete(String id) {
-        supplierRepository.deleteById(id);
+    public Boolean deleteSupplier(String id) {
+        if (supplierRepository.existsById(id)) {
+            supplierRepository.deleteById(id);
+            return true;
+        } else {
+            throw new IllegalArgumentException("Supplier not found with id: " + id);
+        }
     }
 }
