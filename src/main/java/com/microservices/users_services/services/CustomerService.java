@@ -29,11 +29,6 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Customer update(String id, Customer customer) {
-        customer.setId(id);
-        return customerRepository.save(customer);
-    }
-
     public Customer updateCustomer(String id, Customer updateCustomer) {
         return customerRepository.findById(id).map(customer -> {
             if (updateCustomer.getName() != null)

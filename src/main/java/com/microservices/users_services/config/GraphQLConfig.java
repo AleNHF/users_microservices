@@ -26,6 +26,7 @@ public class GraphQLConfig {
                 .dataFetcher("createUser", userResolver.createUser())
                 .dataFetcher("updateUser", userResolver.updateUser())
                 .dataFetcher("deleteUser", userResolver.deleteUser())
+                .dataFetcher("loginUser", userResolver.loginUser())
                 .dataFetcher("createCustomer", customerResolver.createCustomer())
                 .dataFetcher("updateCustomer", customerResolver.updateCustomer())
                 .dataFetcher("deleteCustomer", customerResolver.deleteCustomer())

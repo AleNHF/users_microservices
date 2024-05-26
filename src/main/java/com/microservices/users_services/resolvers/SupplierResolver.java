@@ -56,10 +56,15 @@ public class SupplierResolver implements GraphQLQueryResolver {
             String address = dataFetchingEnvironment.getArgument("address");
 
             Supplier supplier = new Supplier();
-            supplier.setName(name);
-            supplier.setPhone(phone);
-            supplier.setEmail(email);
-            supplier.setAddress(address);
+
+            if (name != null)
+                supplier.setName(name);
+            if (phone != null)
+                supplier.setPhone(phone);
+            if (email != null)
+                supplier.setEmail(email);
+            if (address != null)
+                supplier.setAddress(address);
 
             return supplierService.updateSupplier(id, supplier);
         };

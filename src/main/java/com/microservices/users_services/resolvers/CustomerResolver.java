@@ -52,9 +52,14 @@ public class CustomerResolver implements GraphQLQueryResolver {
             String phone = dataFetchingEnvironment.getArgument("phone");
             String email = dataFetchingEnvironment.getArgument("email");
             Customer customer = new Customer();
-            customer.setName(name);
-            customer.setPhone(phone);
-            customer.setEmail(email);
+
+            if (name != null) 
+                customer.setName(name);
+            if (phone != null)
+                customer.setPhone(phone);
+            if (email != null)
+                customer.setEmail(email);
+                
             return customerService.updateCustomer(id, customer);
         };
     }

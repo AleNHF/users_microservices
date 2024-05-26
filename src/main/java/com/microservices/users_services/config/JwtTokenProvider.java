@@ -20,16 +20,36 @@ public class JwtTokenProvider {
         key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 
-    public String generateToken(Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        
+    public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-            .setSubject(userDetails.getUsername())
-            .setIssuedAt(new Date())
-            .setExpiration(new Date((new Date()).getTime() + 86400000))
-            .signWith(key, SignatureAlgorithm.HS512)
-            .compact();
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + 86400000))
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
     }
+
+    /* public String generateToken(Authentication authentication) {
+        try {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+            if (userDetails == null || userDetails.getUsername() == null || userDetails.getUsername().isEmpty()) {
+                throw new IllegalArgumentException("Invalid UserDetails object or username");
+            }
+            Date expirationDate = new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000); // 24 horas en milisegundos
+
+            String token = Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(expirationDate)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+
+            return token;
+        } catch (Exception e) {
+            throw new RuntimeException("Error generating JWT token", e);
+        }
+    } */
 
     public String getUsernameFromToken(String token) {
         return Jwts.parserBuilder()

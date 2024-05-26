@@ -7,14 +7,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.microservices.users_services.services.CustomUserDetailsService;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -22,15 +20,22 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider, CustomUserDetailsService customUserDetailsService) {
         this.jwtTokenProvider = jwtTokenProvider;
+        this.customUserDetailsService = customUserDetailsService;
     }
     
     @Bean
     AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
+            .userDetailsService(customUserDetailsService)
+            .passwordEncoder(passwordEncoder())
+            .and()
             .build();
+        /* return http.getSharedObject(AuthenticationManagerBuilder.class)
+            .build(); */
     }
 
     @Bean
@@ -49,7 +54,7 @@ public class SecurityConfig {
             .build();
     }
 
-    @Bean
+    /* @Bean
     UserDetailsService userDetailService() {
         UserDetails normalUser = User.builder()
             .username("user")
@@ -64,7 +69,7 @@ public class SecurityConfig {
             .build();
 
         return new InMemoryUserDetailsManager(normalUser, adminUser);
-    }
+    } */
 
     @Bean
     PasswordEncoder passwordEncoder() {

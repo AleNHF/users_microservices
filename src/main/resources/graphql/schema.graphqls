@@ -1,24 +1,23 @@
 type User {
     id: ID!
-    username: String!
-    email: String!
-    password: String!
+    username: String
+    email: String
+    password: String
 }
 
 type Customer {
     id: ID!
-    name: String!
-    phone: String!
-    email: String!
+    name: String
+    phone: String
+    email: String
 }
 
 type Supplier {
     id: ID!
-    name: String!
-    email: String!
-    phone: String!
-    address: String!
-    company: String!
+    name: String
+    email: String
+    phone: String
+    address: String
 }
 
 type Query {
@@ -34,6 +33,7 @@ type Mutation {
     createUser(username: String!, email: String!, password: String!): User
     updateUser(id: ID!, username: String, email: String, password: String): User
     deleteUser(id: ID!): Boolean
+    loginUser(username: String!, password: String!): String
 
     createCustomer(name: String!, phone: String!, email: String!): Customer
     updateCustomer(id: ID!, name: String, phone: String, email: String): Customer

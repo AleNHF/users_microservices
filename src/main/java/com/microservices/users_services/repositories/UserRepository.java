@@ -7,5 +7,5 @@ import com.microservices.users_services.models.User;
 
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
-    //Optional<User> findByEmail(String email); 
+    User findByUsername(String username); 
 }
