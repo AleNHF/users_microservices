@@ -27,6 +27,7 @@ public class SecurityConfig {
         this.customUserDetailsService = customUserDetailsService;
     }
     
+    @SuppressWarnings("removal")
     @Bean
     AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
@@ -43,8 +44,9 @@ public class SecurityConfig {
         return http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> {
-                auth.requestMatchers("/graphql", "/graphiql").permitAll();
-                auth.anyRequest().authenticated();
+                //auth.requestMatchers("/graphql", "/graphiql").permitAll();
+                //auth.anyRequest().authenticated();
+                auth.anyRequest().permitAll();
             })
             .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, null), UsernamePasswordAuthenticationFilter.class)
             .sessionManagement(

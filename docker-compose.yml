@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  springboot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: springboot-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb+srv://admin:admin123$5@cluster-store.yzy5wcr.mongodb.net/
+      SPRING_DATA_MONGODB_DATABASE: db_users_ms

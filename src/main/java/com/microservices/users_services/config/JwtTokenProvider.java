@@ -7,7 +7,6 @@ import jakarta.annotation.PostConstruct;
 import java.security.Key;
 import java.util.Date;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
