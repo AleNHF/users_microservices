@@ -56,10 +56,8 @@ jobs:
           mkdir -p ~/.ssh
           echo "$PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa docker-compose.yml $USER@$HOST:~/docker-compose.yml
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $USER@$HOST << 'EOF'
-            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/userapi:latest
-            sudo docker stop ff237f3f4a9b || true
-            sudo docker rm ff237f3f4a9b || true
-            sudo docker run -d --name ff237f3f4a9b -p 80:8080 ${{ secrets.DOCKER_USERNAME }}/userapi:latest
+            sudo docker-compose -f ~/docker-compose.yml pull
+            sudo docker-compose -f ~/docker-compose.yml up -d
           EOF
