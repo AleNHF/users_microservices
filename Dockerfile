@@ -1,14 +1,14 @@
-# Utiliza una imagen base de JDK
-FROM openjdk:17-jdk-slim
+# Usar una imagen base de OpenJDK 17
+FROM openjdk:17-slim
 
-# Establece el directorio de trabajo
+# Set the working directory
 WORKDIR /app
 
-# Copia el archivo jar de la aplicación al contenedor
-COPY target/users_services-0.0.1-SNAPSHOT.jar /app/users_services-0.0.1-SNAPSHOT.jar
+# Copy the jar file
+COPY target/users_services-0.0.1-SNAPSHOT.jar app.jar
 
-# Expone el puerto en el que la aplicación se ejecutará
+# Expose the port the app runs on
 EXPOSE 8080
 
-# Comando para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "users_services-0.0.1-SNAPSHOT.jar"]
+# Run the jar file
+ENTRYPOINT ["java", "-jar", "app.jar"]
