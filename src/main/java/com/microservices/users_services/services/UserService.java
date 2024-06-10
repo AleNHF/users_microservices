@@ -38,8 +38,9 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(String id) {
-        return userRepository.findById(id);
+    public Optional<User> getUserById(int id) {
+        System.out.println("id service: "+id);
+        return userRepository.getById(id);
     }
 
     public Boolean deleteUser(String id) {

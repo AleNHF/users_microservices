@@ -9,7 +9,8 @@ import lombok.Data;
 @Document(collection = "users")
 public class User {
     @Id
-    private String id;     
+    private String _id;    
+    private int id; 
     private String username; 
     private String email;
     private String password;

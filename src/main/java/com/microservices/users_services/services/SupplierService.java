@@ -21,8 +21,8 @@ public class SupplierService {
         return supplierRepository.save(supplier);
     }
 
-    public Optional<Supplier> getSupplierById(String id) {
-        return supplierRepository.findById(id);
+    public Optional<Supplier> getSupplierById(int id) {
+        return supplierRepository.getById(id);
     }
 
     public List<Supplier> getSuppliers() {

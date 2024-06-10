@@ -9,7 +9,8 @@ import lombok.Data;
 @Document(collection = "suppliers")
 public class Supplier {
     @Id
-    private String id;
+    private String _id;
+    private int id;
     private String name;
     private String phone;
     private String email;

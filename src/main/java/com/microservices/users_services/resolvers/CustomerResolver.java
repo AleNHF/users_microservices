@@ -26,7 +26,8 @@ public class CustomerResolver implements GraphQLQueryResolver {
     public DataFetcher<Optional<Customer>> getCustomerById() {
         return dataFetchingEnvironment -> {
             String id = dataFetchingEnvironment.getArgument("id");
-            return customerService.getCustomerById(id);
+            Integer customerId = Integer.parseInt(id);
+            return customerService.getCustomerById(customerId);
         };
     }
 

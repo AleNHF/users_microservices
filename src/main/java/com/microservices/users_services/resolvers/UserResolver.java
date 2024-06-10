@@ -27,7 +27,8 @@ public class UserResolver implements GraphQLQueryResolver /*, GraphQLMutationRes
     public DataFetcher<Optional<User>> getUserById() {
         return dataFetchingEnvironment -> {
             String id = dataFetchingEnvironment.getArgument("id");
-            return userService.getUserById(id);
+            Integer userId = Integer.parseInt(id);
+            return userService.getUserById(userId);
         };
     }
 

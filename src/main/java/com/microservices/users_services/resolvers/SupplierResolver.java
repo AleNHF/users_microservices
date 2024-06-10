@@ -26,7 +26,8 @@ public class SupplierResolver implements GraphQLQueryResolver {
     public DataFetcher<Optional<Supplier>> getSupplierById() {
         return dataFetchingEnvironment -> {
             String id = dataFetchingEnvironment.getArgument("id");
-            return supplierService.getSupplierById(id);
+            Integer supplierId = Integer.parseInt(id);
+            return supplierService.getSupplierById(supplierId);
         };
     }
 
