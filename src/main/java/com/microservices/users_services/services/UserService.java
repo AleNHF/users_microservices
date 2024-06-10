@@ -39,7 +39,6 @@ public class UserService {
     }
 
     public Optional<User> getUserById(int id) {
-        System.out.println("id service: "+id);
         return userRepository.getById(id);
     }
 

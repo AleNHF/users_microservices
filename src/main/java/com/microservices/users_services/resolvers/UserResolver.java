@@ -37,10 +37,12 @@ public class UserResolver implements GraphQLQueryResolver /*, GraphQLMutationRes
             String username = dataFetchingEnvironment.getArgument("username");
             String email = dataFetchingEnvironment.getArgument("email");
             String password = dataFetchingEnvironment.getArgument("password");
+            String role = dataFetchingEnvironment.getArgument("role");
             User user = new User();
             user.setUsername(username);
             user.setEmail(email);
             user.setPassword(password);
+            user.setRole(role);
             return userService.createUser(user);
         };
     }
@@ -51,6 +53,7 @@ public class UserResolver implements GraphQLQueryResolver /*, GraphQLMutationRes
             String username = dataFetchingEnvironment.getArgument("username");
             String email = dataFetchingEnvironment.getArgument("email");
             String password = dataFetchingEnvironment.getArgument("password");
+            String role = dataFetchingEnvironment.getArgument("role");
             User user = new User();
 
             if (username != null)
@@ -59,6 +62,8 @@ public class UserResolver implements GraphQLQueryResolver /*, GraphQLMutationRes
                 user.setEmail(email);
             if (password != null)
                 user.setPassword(password);
+            if (role != null) 
+                user.setRole(role);
 
             return userService.updateUser(id, user);
         };
