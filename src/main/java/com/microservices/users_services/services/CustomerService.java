@@ -12,12 +12,14 @@ import com.microservices.users_services.repositories.CustomerRepository;
 public class CustomerService {
     //@Autowired
     private CustomerRepository customerRepository;
+    private int nextCustomId = 2000;
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
     public Customer createCustomer(Customer customer) {
+        customer.setId(getNextCustomId());
         return customerRepository.save(customer);
     }
 
@@ -49,5 +51,9 @@ public class CustomerService {
         } else {
             throw new IllegalArgumentException("Customer not found with id: " + id);
         }
+    }
+
+    private synchronized int getNextCustomId() {
+        return nextCustomId++;
     }
 }

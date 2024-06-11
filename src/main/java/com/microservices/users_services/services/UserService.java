@@ -22,6 +22,8 @@ public class UserService {
     private JwtTokenProvider jwtTokenProvider;
     private AuthenticationManager authenticationManager;
 
+    private int nextCustomId = 16;
+
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -30,6 +32,7 @@ public class UserService {
     }
 
     public User createUser(User user) {
+        user.setId(getNextCustomId());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -75,5 +78,17 @@ public class UserService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         return jwtTokenProvider.generateToken(userDetails);
-    } 
+    }
+    
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    private synchronized int getNextCustomId() {
+        return nextCustomId++;
+    }
 }

@@ -12,12 +12,14 @@ import com.microservices.users_services.repositories.SupplierRepository;
 public class SupplierService {
     //@Autowired
     private SupplierRepository supplierRepository;
+    private int nextCustomId = 20;
 
     public SupplierService(SupplierRepository supplierRepository) {
         this.supplierRepository = supplierRepository;
     }
 
     public Supplier createSupplier(Supplier supplier) {
+        supplier.setId(getNextCustomId());
         return supplierRepository.save(supplier);
     }
 
@@ -51,5 +53,9 @@ public class SupplierService {
         } else {
             throw new IllegalArgumentException("Supplier not found with id: " + id);
         }
+    }
+
+    private synchronized int getNextCustomId() {
+        return nextCustomId++;
     }
 }
