@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.microservices.users_services.models.LoginDto;
 import com.microservices.users_services.models.User;
 import com.microservices.users_services.services.UserService;
 
@@ -108,7 +109,15 @@ public class UserResolver implements GraphQLQueryResolver /* , GraphQLMutationRe
         };
     }
 
-    public DataFetcher<String> loginUser() {
+    /* public DataFetcher<String> loginUser() {
+        return dataFetchingEnvironment -> {
+            String username = dataFetchingEnvironment.getArgument("username");
+            String password = dataFetchingEnvironment.getArgument("password");
+            return userService.loginUser(username, password);
+        };
+    } */
+
+    public DataFetcher<LoginDto> loginUser() {
         return dataFetchingEnvironment -> {
             String username = dataFetchingEnvironment.getArgument("username");
             String password = dataFetchingEnvironment.getArgument("password");

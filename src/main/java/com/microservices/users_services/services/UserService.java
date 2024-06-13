@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.microservices.users_services.config.JwtTokenProvider;
+import com.microservices.users_services.models.CustomUserDetails;
+import com.microservices.users_services.models.LoginDto;
 import com.microservices.users_services.models.User;
 import com.microservices.users_services.repositories.UserRepository;
 
@@ -72,13 +74,46 @@ public class UserService {
         }).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
     }
 
-    public String loginUser(String username, String password) {
+    public LoginDto loginUser(String username, String password) {
+        // Authenticate the user
+        Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(username, password)
+        );
+    
+        // Set the authentication context
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        
+        // Retrieve the user details
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        
+        // Safely cast to CustomUserDetails
+        if (userDetails instanceof CustomUserDetails) {
+            CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
+            
+            // Generate the token
+            String token = jwtTokenProvider.generateToken(customUserDetails);
+            
+            // Create and return the response DTO
+            return new LoginDto(
+                token,
+                customUserDetails.getId(),
+                customUserDetails.getUsername(),
+                customUserDetails.getEmail(),
+                customUserDetails.getRole()
+            );
+        } else {
+            // Handle the case where the userDetails is not an instance of CustomUserDetails
+            throw new IllegalStateException("Unexpected user details type: " + userDetails.getClass().getName());
+        }
+    }    
+
+    /* public String loginUser(String username, String password) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         return jwtTokenProvider.generateToken(userDetails);
-    }
+    } */
     
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);

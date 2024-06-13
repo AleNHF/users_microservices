@@ -6,6 +6,14 @@ type User {
     role: String
 }
 
+type LoginResponse {
+    id: ID!
+    token: String!
+    username: String!
+    email: String!
+    role: String!
+}
+
 type Customer {
     id: ID!
     name: String
@@ -34,7 +42,7 @@ type Mutation {
     createUser(username: String!, email: String!, password: String!, role: String!): User
     updateUser(id: ID!, username: String, email: String, password: String, role: String): User
     deleteUser(id: ID!): Boolean
-    loginUser(username: String!, password: String!): String
+    loginUser(username: String!, password: String!): LoginResponse
 
     createCustomer(name: String!, phone: String!, email: String!): Customer
     updateCustomer(id: ID!, name: String, phone: String, email: String): Customer
